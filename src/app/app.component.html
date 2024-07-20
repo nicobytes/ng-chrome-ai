@@ -1,50 +1,86 @@
-<main class="pt-8 pb-16 lg:pt-16 lg:pb-24 h-screen overflow-y-auto">
-  <div class="flex justify-between px-4 mx-auto max-w-screen-xl ">
-    <div class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-      <h1>Tarija</h1>
-      <p>Tarija, ciudad fundada con el nombre de San Bernardo o con el extenso de Villa de San Bernardo de la Frontera
-        de Tarija, 4to es un municipio y una ciudad localizada al sur de Bolivia, capital y ciudad más poblada de la
-        provincia Cercado y del departamento homónimo. Cuenta con una población de aproximadamente 247.000 habitantes en
-        total. Está ubicada en los valles bajos entre el río Nuevo Guadalquivir a 1834 m s. n. m. Tarija es una de las
-        ciudades más desarrolladas de Bolivia, con un indicador municipal de desarrollo sostenible de 70,6 (la tercera a
-        nivel nacional)​</p>
-
-      <p>La ciudad fue fundada el 4 de julio de 1574 por el capitán andaluz, natural de Sevilla, Don Luis de Fuentes y
-        Vargas, por órdenes de Francisco Álvarez de Toledo, virrey del Perú. En el siglo XVII se convirtió en una región
-        evangelizadora y viñedera. Durante el Virreinato del Río de la Plata, en 1807, pasó a depender obispalmente a la
-        Intendencia de Salta del Tucumán. El 25 de julio de 1810 el Cabildo de Tarija apoyó a la revolución de Buenos
-        Aires y el 18 de agosto envió como diputado a la Junta Grande celebrada en Buenos Aires, al abogado tarijeño
-        José Julián Pérez de Echalar, para integrarse a las Provincias Unidas del Río de la Plata. Una vez
-        independizados de España las provincias argentinas en 1816 y las provincias altoperuanas en 1825, la Cuestión de
-        Tarija emergió inmediatamente por las pretensiones de Antonio José de Sucre, quien ordenó invadir Tarija a los
-        coroneles Francisco Burdett O'Connor Bowen y a Bernardo Trigo Espejo junto con las tropas colombianas
-        subsidiadas por Sucre en 1825 resultando en fracaso. En agosto y septiembre tras una nueva invasión la cual
-        exitosamente el territorio de Tarija fue anexada ilegalmente a la recién creada Bolivia, designando de facto a
-        Bernardo Trigo como su primer teniente gobernador en Bolivia.6​ Meses antes de esta segunda invasión, la
-        población tarijeña pidió al diputado tarijeño Felipe Echazú –que fungía como diputado en el Congreso de Buenos
-        Aires- que cree o eleve al territorio de Tarija a provincia rioplatense de Tarija, la cual lo logró y fue
-        promulgada el 30 de noviembre de 1826 e integrada a la constitución argentina el 24 de diciembre, esto dio lugar
-        al conflicto diplomático posterior. La acción militar más relevante por la pertenencia de Tarija entre Argentina
-        y Bolivia, fue la del Combate de Montenegro.
-      </p>
-      <p>La ciudad fue fundada el 4 de julio de 1574 por el capitán andaluz, natural de Sevilla, Don Luis de Fuentes y
-        Vargas, por órdenes de Francisco Álvarez de Toledo, virrey del Perú. En el siglo XVII se convirtió en una región
-        evangelizadora y viñedera. Durante el Virreinato del Río de la Plata, en 1807, pasó a depender obispalmente a la
-        Intendencia de Salta del Tucumán. El 25 de julio de 1810 el Cabildo de Tarija apoyó a la revolución de Buenos
-        Aires y el 18 de agosto envió como diputado a la Junta Grande celebrada en Buenos Aires, al abogado tarijeño
-        José Julián Pérez de Echalar, para integrarse a las Provincias Unidas del Río de la Plata. Una vez
-        independizados de España las provincias argentinas en 1816 y las provincias altoperuanas en 1825, la Cuestión de
-        Tarija emergió inmediatamente por las pretensiones de Antonio José de Sucre, quien ordenó invadir Tarija a los
-        coroneles Francisco Burdett O'Connor Bowen y a Bernardo Trigo Espejo junto con las tropas colombianas
-        subsidiadas por Sucre en 1825 resultando en fracaso. En agosto y septiembre tras una nueva invasión la cual
-        exitosamente el territorio de Tarija fue anexada ilegalmente a la recién creada Bolivia, designando de facto a
-        Bernardo Trigo como su primer teniente gobernador en Bolivia.6​ Meses antes de esta segunda invasión, la
-        población tarijeña pidió al diputado tarijeño Felipe Echazú –que fungía como diputado en el Congreso de Buenos
-        Aires- que cree o eleve al territorio de Tarija a provincia rioplatense de Tarija, la cual lo logró y fue
-        promulgada el 30 de noviembre de 1826 e integrada a la constitución argentina el 24 de diciembre, esto dio lugar
-        al conflicto diplomático posterior. La acción militar más relevante por la pertenencia de Tarija entre Argentina
-        y Bolivia, fue la del Combate de Montenegro.
-      </p>
+<div class="drawer">
+  <input
+    id="my-drawer"
+    type="checkbox"
+    class="drawer-toggle"
+    [checked]="$isChatOpen()"
+  />
+  <div class="drawer-content">
+    <main class="pt-8 pb-16 lg:pt-16 lg:pb-24 h-screen overflow-y-auto">
+      <div class="flex justify-between px-4 mx-auto max-w-screen-xl">
+        <div
+          class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert"
+        >
+          <markdown [data]="$context()" />
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="drawer-side">
+    <label
+      for="my-drawer"
+      aria-label="close sidebar"
+      class="drawer-overlay"
+    ></label>
+    <div class="bg-base-200 text-base-content min-h-full w-96 p-4">
+      <div class="w-full">
+        @for (message of $history(); track message.id) {
+          <div
+            class="chat"
+            [class.chat-start]="message.type === 'user'"
+            [class.chat-end]="message.type === 'bot'"
+          >
+            <div class="chat-bubble">
+              <markdown [data]="message.text" />
+            </div>
+          </div>
+        }
+      </div>
+      <textarea
+        (keyup.enter)="sendMessage()"
+        class="w-full textarea textarea-bordered mt-5"
+        placeholder="Ask me anything!!"
+        [formControl]="messageCtrl"
+      ></textarea>
     </div>
   </div>
-</main>
+</div>
+
+@if ($isAiEnabled()) {
+  <button
+    (click)="toogleChat()"
+    class="btn btn-primary btn-circle absolute bottom-8 right-8"
+  >
+    @if ($isChatOpen()) {
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    } @else {
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+        />
+      </svg>
+    }
+  </button>
+}
